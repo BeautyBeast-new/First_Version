@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty & Beast</title>
+    <!-- 引入 LineIcons 字體庫 -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <!-- 引入 Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- 引入自定義 CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 側邊欄開始 -->
+        <aside id="sidebar">
+            <div class="d-flex">
+                <!-- 切換按鈕 -->
+                <button class="toggle-btn" type="button">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- 側邊欄標誌 -->
+                <div class="sidebar-logo">
+                    <a href="#">B&B</a>
+                </div>
+            </div>
+            <!-- 側邊欄導航 -->
+            <ul class="sidebar-nav">
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="./icon/nav_home.ico" class="icon-type">
+                        <span>首頁</span>
+                    </a>
+                </li>
+
+                <!-- 單個導航項目 -->
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link ">
+                        <img src="./icon/feature04.ico" class="icon-type">
+                        <span>會員中心</span>
+                    </a>
+                </li>
+                <!-- 嵌套導航項目 -->
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="./icon/nav_mushrooms.ico" class="icon-type">
+                        <span>健身精靈</span>
+                    </a>
+                </li>
+                <!-- 具有下拉菜單的導航項目 -->
+                <li class="sidebar-item">
+                    <a href="./index.html" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                        <img src="./icon/feature03.ico" class="icon-type">
+                        <span>我的計畫</span>
+                    </a>
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="./gmy.html" class="sidebar-link">運動計畫</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="./eathistory.html" class="sidebar-link">飲食紀錄</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 其他導航項目 -->
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="./icon/nav_buy.ico" class="icon-type">
+                        <span>健身好物</span>
+                    </a>
+                </li>
+
+            </ul>
+            <!-- 側邊欄底部 -->
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link">
+                    <img src="./icon/nav_logout.ico" class="icon-type">
+                    <span>登出</span>
+                </a>
+            </div>
+        </aside>
+        <!-- 主內容區域 -->
+        <div class="main p-3">
+            <div class="main-content">
+                <div class="header">
+                    <h1>飲食紀錄</h1>
+                </div>
+                <div class="plan-section">
+                    <h2>Today</h2>
+                    <div class="plans">
+                        <div class="plan" style="height: 160px;">
+                            <h3><i class="fas fa-utensils"></i> 早餐</h3>
+                            <br>
+                            <button class="btn" onclick="openForm('早餐')">填寫</button>
+                        </div>
+                        <div class="plan" style="height: 160px;">
+                            <h3><i class="fas fa-utensils"></i> 午餐</h3>
+                            <br>
+                            <button class="btn" onclick="openForm('午餐')">填寫</button>
+                        </div>
+                        <div class="plan" style="height: 160px;">
+                            <h3><i class="fas fa-utensils"></i> 晚餐</h3>
+                            <br>
+                            <button class="btn" onclick="openForm('晚餐')">填寫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="header">
+                    <h1>卡路里紀錄表</h1>
+                </div>
+                <div class="plan-section">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeForm()">&times;</span>
+                <h2 id="mealType">填寫表單</h2>
+                <form action="/submit_form.php" method="post">
+                    <!-- Add your form fields here -->
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">主食(五穀類)：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="225">飯(一碗,約225卡)</option>
+                            <option value="560">炒飯(一盤,約560卡)</option>
+                            <option value="1057">爌肉飯(一碗,約1057卡)</option>
+                            <option value="973">咖哩飯(一碗,約973卡)</option>
+                            <option value="960">三寶飯(一碗,約960卡)</option>
+                            <option value="911">八寶粽(一顆,約911卡)</option>
+                            <option value="872">燴飯(一碗,約872卡)</option>
+                            <option value="786">丼飯(一碗,約786卡)</option>
+                            <option value="700">肉羹飯(一碗,約700卡)</option>
+                            <option value="685">燒肉飯(一碗,約685卡)</option>
+                            <option value="648">滷肉飯(一碗,約648卡)</option>
+                            <option value="549">雞肉飯(一碗,約549卡)</option>
+                            <option value="519">飯團(一顆,約519卡)</option>
+                            <option value="511">肉粽(一顆,約511卡)</option>
+                            <option value="456">鴨肉飯(一碗,約456卡)</option>
+                            <option value="975">炒麵(一盤,約975卡)</option>
+                            <option value="870">牛肉麵(一碗,約870卡)</option>
+                            <option value="850">大滷麵(一碗,約850卡)</option>
+                            <option value="750">排骨酥麵(一碗,約750卡)</option>
+                            <option value="710">肉羹麵(一碗,約710卡)</option>
+                            <option value="650">涼麵(一碗,約650卡)</option>
+                            <option value="640">麻醬麵(一碗,約640卡)</option>
+                            <option value="580">肉湯麵(一碗,約580卡)</option>
+                            <option value="550">意麵(一碗,約550卡)</option>
+                            <option value="535">餛飩麵(一碗,約535卡)</option>
+                            <option value="453">蛤仔麵(一碗,約453卡)</option>
+                            <option value="415">蚵仔麵線(一碗,約415卡)</option>
+                            <option value="400">榨菜肉絲麵(一碗,約400卡)</option>
+                            <option value="360">陽春麵(一碗,約360卡)</option>
+                            <option value="450">泡麵(一碗,約450卡)</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">魚肉類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="165">烤雞胸肉 (一份, 約165卡)</option>
+                            <option value="200">烤雞腿肉 (一份, 約200卡)</option>
+                            <option value="250">烤豬肉 (一份, 約250卡)</option>
+                            <option value="250">烤牛排 (一份, 約250-300卡)</option>
+                            <option value="294">烤羊肉 (一份, 約294卡)</option>
+                            <option value="135">烤火雞胸肉 (一份, 約135卡)</option>
+                            <option value="150">烤火雞腿肉 (一份, 約150卡)</option>
+                            <option value="337">烤鴨肉 (一份, 約337卡)</option>
+                            <option value="173">烤兔肉 (一份, 約173卡)</option>
+                            <option value="210">烤鮭魚 (一份, 約210卡)</option>
+                            <option value="90">烤鱈魚 (一份, 約90卡)</option>
+                            <option value="130">烤鯛魚 (一份, 約130卡)</option>
+                            <option value="144">烤鮪魚 (一份, 約144卡)</option>
+                            <option value="200">烤鯖魚 (一份, 約200卡)</option>
+                            <option value="168">烤鱒魚 (一份, 約168卡)</option>
+                            <option value="97">烤鱸魚 (一份, 約97卡)</option>
+                            <option value="100">烤蝦 (一份, 約100卡)</option>
+                            <option value="90">烤龍蝦 (一份, 約90卡)</option>
+                            <option value="95">烤扇貝 (一份, 約95卡)</option>
+                            <option value="100">烤魷魚 (一份, 約100卡)</option>
+                            <option value="83">烤螃蟹 (一份, 約83卡)</option>
+                            <option value="150">烤牡蠣 (一份, 約150卡)</option>
+                            <option value="250">炸雞塊 (一份, 約250-300卡)</option>
+                            <option value="320">炸雞翅 (一份, 約290-350卡)</option>
+                            <option value="375">炸豬排 (一份, 約350-400卡)</option>
+                            <option value="375">炸牛肉 (一份, 約350-400卡)</option>
+                            <option value="425">炸羊肉 (一份, 約400-450卡)</option>
+                            <option value="375">炸鴨肉 (一份, 約350-400卡)</option>
+                            <option value="230">炸兔肉 (一份, 約210-250卡)</option>
+                            <option value="250">炸魚排 (一份, 約220-280卡)</option>
+                            <option value="275">炸蝦 (一份, 約250-300卡)</option>
+                            <option value="225">炸鱈魚 (一份, 約200-250卡)</option>
+                            <option value="275">炸鯛魚 (一份, 約250-300卡)</option>
+                            <option value="275">炸鮪魚 (一份, 約250-300卡)</option>
+                            <option value="325">炸鯖魚 (一份, 約300-350卡)</option>
+                            <option value="275">炸鱒魚 (一份, 約250-300卡)</option>
+                            <option value="225">炸鱸魚 (一份, 約200-250卡)</option>
+                            <option value="275">炸魷魚圈 (一份, 約250-300卡)</option>
+                            <option value="225">炸螃蟹 (一份, 約200-250卡)</option>
+                            <option value="225">炸牡蠣 (一份, 約200-250卡)</option>
+                            <option value="225">炸扇貝 (一份, 約200-250卡)</option>
+                            <option value="230">便當雞腿 (一份, 約230-270卡)</option>
+                            <option value="320">便當豬排 (一份, 約290-350卡)</option>
+                            <option value="275">便當牛肉 (一份, 約250-300卡)</option>
+                            <option value="225">便當魚 (一份, 約200-250卡)</option>
+                            <option value="110">便當蝦 (一份, 約100-120卡)</option>
+                            <option value="325">便當香腸 (一份, 約300-350卡)</option>
+                            <option value="315">便當炸雞 (一份, 約280-350卡)</option>
+                            <option value="295">便當叉燒 (一份, 約270-320卡)</option>
+                            <option value="145">熟火腿 (一份, 約145卡)</option>
+                            <option value="541">培根 (一份, 約541卡)</option>
+                            <option value="325">臘腸 (一份, 約325卡)</option>
+                            <option value="410">牛肉乾 (一份, 約410卡)</option>
+                            <option value="450">豬肉乾 (一份, 約450卡)</option>
+                            <option value="300">魷魚乾 (一份, 約300卡)</option>
+                            <option value="120">鴨胗 (一份, 約120卡)</option>
+                            <option value="94">雞胗 (一份, 約94卡)</option>
+                            <option value="85">牛肚 (一份, 約85卡)</option>
+                            <option value="165">豬肝 (一份, 約165卡)</option>
+                            <option value="119">雞肝 (一份, 約119卡)</option>
+                            <option value="150">魚翅 (一份, 約150卡)</option>
+                            <option value="130">鯊魚肉 (一份, 約130卡)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">蔬菜類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="715">凱撒沙拉 (約715卡)</option>
+                            <option value="500">意式蔬菜沙拉 (約500卡)</option>
+                            <option value="450">希臘沙拉 (約450卡)</option>
+                            <option value="300">綜合蔬菜沙拉 (約300卡)</option>
+                            <option value="400">亞洲風沙拉 (例如泰式涼拌麵) (約400卡)</option>
+                            <option value="200">羅馬生菜沙拉 (約200卡)</option>
+                            <option value="200">水果沙拉 (約200卡)</option>
+                            <option value="400">海鮮沙拉 (400卡)</option>
+                            <option value="500">鮭魚沙拉 (約500卡)</option>
+                            <option value="500">花生醬拌麵沙拉 (約500卡)</option>
+                            <option value="148">燙韭菜豆芽 (約148卡)</option>
+                            <option value="128">燙黃豆芽 (約128卡)</option>
+                            <option value="122">燙豌豆苗 (約122卡)</option>
+                            <option value="116">燙地瓜葉 (約116卡)</option>
+                            <option value="108">燙菠菜 (約108卡)</option>
+                            <option value="108">燙龍鬚菜 (約108卡)</option>
+                            <option value="106">燙花椰菜 (約106卡)</option>
+                            <option value="106">燙高麗菜 (約106卡)</option>
+                            <option value="104">燙空心菜 (約104卡)</option>
+                            <option value="104">燙紅鳳菜 (約104卡)</option>
+                            <option value="94">燙A菜 (約94卡)</option>
+                            <option value="86">燙福山萵苣(大陸妹) (約86卡)</option>
+                            <option value="84">燙油菜 (約84卡)</option>
+                            <option value="80">燙小白菜(約80卡)</option>
+                            <option value="80">燙青江菜 (約80卡)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">蛋類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="158">荷包蛋(一份,約158卡)</option>
+                            <option value="220">炒蛋(一份,約220卡)</option>
+                            <option value="172">魯蛋(一顆,約172卡)</option>
+                            <option value="143">茶葉蛋(一顆,約143卡)</option>
+                            <option value="143">水煮蛋(一顆,約143卡)</option>
+                            <option value="64">蒸蛋(一顆,約64卡)</option>
+                            <option value="163">原味蛋餅(一份,約263卡)</option>
+                            <option value="345">鮪魚蛋餅(一份,約345卡)</option>
+                            <option value="292">玉米蛋餅(一份,約292卡)</option>
+                            <option value="344">起司蛋餅(一份,約344卡)</option>
+                            <option value="294">燻雞蛋餅(一份,約294卡)</option>
+                            <option value="338">豬排蛋餅(一份,約338卡)</option>
+                            <option value="277">蔬菜蛋餅(一份,約277卡)</option>
+                            <option value="260">粉漿蛋餅(一份,約260卡)</option>
+                            <option value="357">培根蛋餅(一份,約357卡)</option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">速食類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="1170">麥克雞塊 20 塊 (約1170卡)</option>
+                            <option value="800">雙層四盎司牛肉堡 (約800卡)</option>
+                            <option value="560">勁辣雞腿堡 (約560卡)</option>
+                            <option value="540">四盎司牛肉堡 (約540卡)</option>
+                            <option value="530">大麥克 (約530卡)</option>
+                            <option value="530">麥克雞塊 9 塊 (約530卡)</option>
+                            <option value="450">雙層牛肉吉士堡 (約450卡)</option>
+                            <option value="410">麥克雙牛堡 (約410卡)</option>
+                            <option value="380">麥香雞 (約380卡)</option>
+                            <option value="350">麥克雞塊 6 塊 約(350卡)</option>
+                            <option value="340">麥脆鷄（辣）雞排 (約340卡)</option>
+                            <option value="330">麥脆鷄（原）雞排 (約330卡)</option>
+                            <option value="320">麥香魚 (約320卡)</option>
+                            <option value="310">吉事漢堡 (約310卡)</option>
+                            <option value="300">板烤雞腿堡 (約300卡)</option>
+                            <option value="260">漢堡 (約260卡)</option>
+                            <option value="230">麥克雞塊 4 塊 (約230卡)</option>
+                            <option value="220">麥脆鷄（原）雞翅 (約220卡)</option>
+                            <option value="200">麥脆鷄（辣）雞翅 (約200卡)</option>
+                            <option value="180">麥脆鷄（原）雞腿 (約180卡)</option>
+                            <option value="180">麥脆鷄（辣）雞腿 (約180卡)</option>
+                            <option value="470">大薯 (約470 卡)</option>
+                            <option value="380">巧克力奶昔 (約380 卡)</option>
+                            <option value="380">草莓奶昔 (約380 卡)</option>
+                            <option value="380">香草奶昔 (約380 卡)</option>
+                            <option value="330">中薯 (約330 卡)</option>
+                            <option value="330">冰炫風（OREO） (約330 卡)</option>
+                            <option value="300">巧克力聖代 (約300 卡)</option>
+                            <option value="290">冰炫風（法式焦糖脆片） (約290 卡)</option>
+                            <option value="260">草莓聖代 (約260 卡)</option>
+                            <option value="240">小薯 (約240 卡)</option>
+                            <option value="230">蘋果派 (約230 卡)</option>
+                            <option value="160">薯餅 (約160 卡)</option>
+                            <option value="140">蛋捲冰淇淋 (約140 卡)</option>
+                            <option value="480">台酒麻油紙包雞 (約480 卡)</option>
+                            <option value="521">青花椒香麻啦雞腿堡 (約521 卡)</option>
+                            <option value="304">青花椒香麻脆雞(辣) (約304 卡)</option>
+                            <option value="362">墨西哥莎莎雞腿捲 (約362 卡)</option>
+                            <option value="445">咔啦雞腿堡 (約445 卡)</option>
+                            <option value="411">紐奧良烤雞腿堡 (約411 卡)</option>
+                            <option value="716">花生熔岩咔啦雞腿堡(辣) (約716 卡)</option>
+                            <option value="236">咔啦脆雞（1隻） (約236 卡)</option>
+                            <option value="167">薄皮嫩雞（1隻） (約167 卡)</option>
+                            <option value="193">上校雞塊（4個） (約193 卡)</option>
+                            <option value="126">玉米濃湯 (約126 卡)</option>
+                            <option value="185">香酥脆薯（中） (約185 卡)</option>
+                            <option value="182">原味蛋撻 (約182 卡)</option>
+                            <option value="86">經典玉米 (約86 卡)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">飲料類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="120">綠茶 (約120卡)</option>
+                            <option value="120">紅茶 (約120卡)</option>
+                            <option value="120">青茶 (約120卡)</option>
+                            <option value="120">烏龍茶 (約120卡)</option>
+                            <option value="140">檸檬綠茶 (約140卡)</option>
+                            <option value="140">梅子綠茶 (約140卡)</option>
+                            <option value="200">養樂多綠茶 (約200卡)</option>
+                            <option value="181">冰淇淋紅茶 (約181卡)</option>
+                            <option value="161">鮮柚綠茶 (約161卡)</option>
+                            <option value="300">奶茶 (約300卡)</option>
+                            <option value="300">奶綠 (約300卡)</option>
+                            <option value="300">四季奶青 (約300卡)</option>
+                            <option value="300">烏龍奶 (約300卡)</option>
+                            <option value="432">阿華田 (約432卡)</option>
+                            <option value="312">可可芭蕾 (約312卡)</option>
+                            <option value="230">紅茶拿鐵 (約230卡)</option>
+                            <option value="230">綠茶拿鐵 (約230卡)</option>
+                            <option value="230">烏龍拿鐵 (約230卡)</option>
+                            <option value="340">抹茶拿鐵 (約340卡)</option>
+                            <option value="402">阿華田拿鐵 (約402卡)</option>
+                            <option value="289">可可芭蕾拿鐵 (約289卡)</option>
+                            <option value="125">汽水 (約 125 卡 / 罐)</option>
+                            <option value="150">果汁飲料 (約 150 卡 / 罐)</option>
+                            <option value="250">咖啡飲料（含糖） (約 250 卡 / 杯)</option>
+                            <option value="150">能量飲料 (約 150 卡 / 瓶)</option>
+                            <option value="150">酒精飲料（如啤酒、葡萄酒、烈酒） (約 150 卡 / 杯)</option>
+                            <option value="100">茶飲料（含糖） (約 100 卡 / 瓶)</option>
+                            <option value="150">乳制品飲料（如牛奶、豆漿） (約 150 卡 / 杯)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meal" class="form-label">水果類：</label>
+                        <select class="form-select" id="meal" name="meal" aria-label="選擇餐點">
+                            <option selected disabled>請選擇以下餐點----></option>
+                            <option value="0">無(0卡)</option>
+                            <option value="52">蘋果 (約 52 卡)</option>
+                            <option value="105">香蕉 (約 105 卡)</option>
+                            <option value="62">橙子 (約 62 卡)</option>
+                            <option value="69">葡萄 (約 69 卡)</option>
+                            <option value="49">草莓 (約 49 卡)</option>
+                            <option value="135">芒果 (約 135 卡)</option>
+                            <option value="46">西瓜 (約 46 卡)</option>
+                            <option value="59">桃子 (約 59 卡)</option>
+                            <option value="52">梨子 (約 52 卡)</option>
+                            <option value="82">菠蘿 (約 82 卡)</option>
+                            <option value="87">車厘子 (約 87 卡)</option>
+                            <option value="77">櫻桃 (約 77 卡)</option>
+                            <option value="17">檸檬 (約 17 卡)</option>
+                            <option value="62">橙子 (約 62 卡)</option>
+                            <option value="60">火龍果 (約 60 卡)</option>
+                            <option value="27">櫻桃番茄 (約 27 卡)</option>
+                            <option value="62">橘子 (約 62 卡)</option>
+                            <option value="283">椰子 (約 283 卡)</option>
+                            <option value="62">桑葚 (約 62 卡)</option>
+                            <option value="17">杏子 (約 17 卡)</option>
+                            <option value="60">水蜜桃 (約 60 卡)</option>
+                            <option value="4">橄欖 (約 4 卡)</option>
+                            <option value="118">柿子 (約 118 卡)</option>
+                            <option value="66">棗子 (約 66 卡)</option>
+                            <option value="46">椰子汁 (約 46 卡)</option>
+                            <option value="325">榴槤 (約 325 卡)</option>
+                            <option value="38">柚子 (約 38 卡)</option>
+                            <option value="83">鳳梨 (約 83 卡)</option>
+                            <option value="35">桂圓 (約 35 卡)</option>
+                            <option value="234">石榴 (約 234 卡)</option>
+                            <option value="84">李子 (約 84 卡)</option>
+                            <option value="47">蓮霧 (約 47 卡)</option>
+                            <option value="60">桑椹 (約 60 卡)</option>
+                            <option value="28">楊桃 (約 28 卡)</option>
+                            <option value="38">柚子 (約 38 卡)</option>
+                            <option value="45">蜜瓜 (約 45 卡)</option>
+                            <option value="66">蓮藕 (約 66 卡)</option>
+                            <option value="119">木瓜 (約 119 卡)</option>
+                            <option value="26">柿子椒 (約 26 卡)</option>
+                            <option value="52">葡萄柚 (約 52 卡)</option>
+                            <option value="17">龍眼 (約 17 卡)</option>
+                            <option value="40">黃桃 (約 40 卡)</option>
+                            <option value="28">楊桃 (約 28 卡)</option>
+                            <option value="62">黑布林 (約 62 卡)</option>
+                            <option value="75">紅毛丹 (約 75 卡)</option>
+                            <option value="100">橙皮柚 (約 100 卡)</option>
+                            <option value="43">黑莓 (約 43 卡)</option>
+                            <option value="68">蓮子 (約 68 卡)</option>
+                            <option value="46">金桔 (約 46 卡)</option>
+                            <option value="325">榴蓮 (約 325 卡)</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="提交">
+                </form>
+            </div>
+        </div>
+
+
+
+        <div class="custom-box">
+            <div class="header1">
+                <h2>每日簽到</h2>
+            </div>
+
+            <div class="calendar">
+                <div class="calendar-header">
+                    <!-- 年 -->
+                    <div class="year-picker">
+                        <span class="year-change" id="prev-year">
+                            <pre><</pre>
+                        </span>
+                        <span id="year">2024</span>
+                        <span class="year-change" id="next-year">
+                            <pre>></pre>
+                        </span>
+                    </div>
+
+                    <!-- 月 -->
+                    <span class="month-picker" id="month-picker">May</span>
+                </div>
+                <div class="calendar-body">
+                    <!-- 星期 -->
+                    <div class="calendar-week-day">
+                        <div>日</div>
+                        <div>一</div>
+                        <div>二</div>
+                        <div>三</div>
+                        <div>四</div>
+                        <div>五</div>
+                        <div>六</div>
+                    </div>
+
+                    <!-- 日期 -->
+                    <div class="calendar-days"></div>
+                </div>
+
+                <div class="month-list"></div>
+            </div>
+            <div class="btn1-container">
+                <button class="btn1" id="btncheck" data-hover="&#128073;click me!">
+                    <div style="color: white;">簽到</div>
+                </button>
+            </div>
+            <div style="text-align: center;">
+                <h2>目前攝取總共xxxxx大卡</h2>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- 引入 Bootstrap 5 JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const chartElement = document.getElementById('myChart');
+        const data = {
+            labels: [
+                '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日',
+            ],
+            datasets: [{
+                label: '卡路里',
+                data: [1843, 1538, 1489, 1650, 1700, 1956, 1800],
+            }]
+        };
+        new Chart(chartElement, {
+            type: 'line',
+            data: data,
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <!-- 引入自定義 JavaScript -->
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
